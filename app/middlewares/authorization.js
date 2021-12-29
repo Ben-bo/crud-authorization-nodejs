@@ -51,12 +51,12 @@ const authorization = {
   authValidation: async (req, res, next) => {
     try {
       const body = {
-        email: req.body.email,
+        username: req.body.username,
         password: req.body.password,
       };
       const schema = joi
         .object({
-          email: joi.string().email().required(),
+          username: joi.string().required(),
           password: joi.string().required(),
         })
         .options({ abortEarly: false });

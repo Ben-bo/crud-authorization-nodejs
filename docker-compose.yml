@@ -1,28 +1,28 @@
 version: '3.8'
 services:
-  mongo:
-    image: mongo:latest
-    container_name: auth-admin
-    hostname: mongo
-    volumes:
-      - mongo:/data/db
-    restart:
-      always
-    networks:
-      - auth-network
-    ports: 
-      - 27017:27017
-  app:
-    build : .
+  api-server:
+    image: user-admin:1.0
     ports:
-      - 5000:5000
+      - "5000:5000"
     depends_on:
       - mongo
-    environment:
-      WAIT_HOSTS: mongo:27017
     networks:
-      - auth-network        
+      - auth-network
+    container_name: api-con
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - auth-network
+    volumes:
+      - mongo-data:/data/db
+    container_name: mongo-con
+
 networks:
   auth-network:
+    driver: bridge
 volumes:
-  mongo:
+  mongo-data:
+    driver: local

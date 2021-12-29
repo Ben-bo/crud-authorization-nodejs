@@ -7,9 +7,11 @@ const auth = {
       let message = "SUCCESS";
       let status = 200;
       let result = {};
-      const cekMail = await userModel.findOne({ email: req.body.email }).exec();
+      const cekMail = await userModel
+        .findOne({ username: req.body.username })
+        .exec();
       if (cekMail) {
-        message = "email alreday exist";
+        message = "username alreday exist";
         status = 500;
       } else {
         const newUser = new userModel({
@@ -19,6 +21,9 @@ const auth = {
             process.env.SECRET_KEY
           ).toString(),
           isAdmin: req.body.isAdmin,
+          gender: req.body.gender,
+          address: req.body.address,
+          phone: req.body.phone,
         });
         result = await newUser.save();
       }
